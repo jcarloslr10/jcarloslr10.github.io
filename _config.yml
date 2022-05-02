@@ -16,14 +16,14 @@ lang: en
 prefer_datetime_locale:
 
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
-timezone:
+timezone: Europe/Madrid
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: jcarloslr10                          # the main title
+title: Juan Carlos Lopez                          # the main title
 
-tagline: Software engineer at Plain Concepts   # it will display as the sub-title
+tagline: Software engineer @ Plain Concepts   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   Blog about software solutions to real-world business problems in production environments, all based on lots of caffeine and taurine.
@@ -40,7 +40,7 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Juan Carlos López
+  name: Juan Carlos Lopez
   email: tmac.juancar.24@gmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
