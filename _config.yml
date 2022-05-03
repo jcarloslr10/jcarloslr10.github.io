@@ -100,9 +100,9 @@ comments:
   # Giscus options › https://giscus.app
   giscus:
     repo: "jcarloslr10/jcarloslr10.github.io"            # <gh-username>/<repo>
-    repo_id: "485971981"
+    repo_id: "R_kgDOHPdYDQ"
     category: "Comments"
-    category_id: "37459004"
+    category_id: "DIC_kwDOHPdYDc4CO5Q8"
     mapping: "pathname"         # optional, default to 'pathname'
     reaction-enabled: "1"
     input_position:   # optional, default to 'bottom'
