@@ -5,7 +5,7 @@ categories: [Data, MongoDB]
 tags: [database, mongodb, regex, performance, tuning, index]
 ---
 
-## Millenium Problem
+## The Millenium Problem
 ---
 Some of us have worked building applications where, at some point, they need to filter data based on a specified pattern. At first glance, it may seem like a simple problem to solve, but it can hide a poison dart behind it.
 
