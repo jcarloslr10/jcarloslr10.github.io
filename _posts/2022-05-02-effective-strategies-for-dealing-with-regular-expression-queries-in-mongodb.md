@@ -5,6 +5,8 @@ categories: [Data, MongoDB]
 tags: [database, mongodb, regex, performance, tuning, index]
 ---
 
+> Thanks to my teammate [*Daniel Perdomo*](https://www.linkedin.com/in/daniel-perdomo-lorenzo-35b5a070/){:target="_blank"} for his help. I couldn't have done it without you. 🙏
+
 ## The Millenium Problem
 ---
 Some of us have worked building applications where, at some point, they need to filter data based on a specified pattern. At first glance, it may seem like a simple problem to solve, but it can hide a poison dart behind it.
@@ -15,9 +17,9 @@ It all starts when a stakeholder tells us that the end-user has a need to filter
 
 > "Does it have to be a **smarter** text matching by taking singular and plural terms into account and skipping stop words?"
 
-If the answer to the **second question is yes**, we should consider paths related to [**text indexes**](https://www.mongodb.com/docs/manual/core/index-text/) in MongoDB or, for more demanding scenarios, other technologies such as [**Atlas Search**](https://www.mongodb.com/docs/atlas/atlas-search/) or [**Elasticsearch**](https://www.elastic.co/what-is/elasticsearch).
+If the answer to the **second question is yes**, we should consider paths related to [**text indexes**](https://www.mongodb.com/docs/manual/core/index-text/){:target="_blank"} in MongoDB or, for more demanding scenarios, other technologies such as [**Atlas Search**](https://www.mongodb.com/docs/atlas/atlas-search/){:target="_blank"} or [**Elasticsearch**](https://www.elastic.co/what-is/elasticsearch){:target="_blank"}.
 
-If the answer to the **first question is yes** then we should consider use [**regular indexes**](https://www.mongodb.com/docs/manual/indexes/), although we still have one more question to ask:
+If the answer to the **first question is yes** then we should consider use [**regular indexes**](https://www.mongodb.com/docs/manual/indexes/){:target="_blank"}, although we still have one more question to ask:
 
 > "Can the pattern match only against the values from the beginning of the string (**prefix pattern**) or anywhere (**LIKE-style**)?"
 
@@ -26,7 +28,7 @@ Fortunately, if the answer to the question is *"It only matches against the valu
 By the way, before continuing, the stakeholders also ask us to make the matchings insensitive to uppercase, lowercase and diacritics... 😭
 
 ## Regex operator
-
+---
 First, I would like to introduce the `$regex` operator in MongoDB. The operator accepts a regular expression of the following form `/pattern/<options>`. An example of non-prefix pattern might be `/cor/i` which looks for the term **cor** anywhere in the string and insensitively.
 
 This type of approach poses two problems, even using regular indexes:
@@ -35,7 +37,7 @@ This type of approach poses two problems, even using regular indexes:
 2. The option flag `i` causes MongoDB to perform insensitive comparisons which is more inefficient.
 
 ## Use case
-
+---
 The application that we are building has a list of users. A end-user of this application has to be able to search users by full name, but to perform meaningful searches on the data, at least one term of **at least three alphanumeric characters** must be typed into the text search box.
 
 This limitation on the minimum size of the term is set because searches for **below three characters** will not yield consistent and useful results.
@@ -76,7 +78,7 @@ db.getCollection("users").aggregate([
 Next, we are going to run the queries on the `users` collection which has **1,000,000 documents**, so stay tuned.
 
 ## Avoiding insensitive flag
-
+---
 Building on the user data model above, a new field called `normalizedName` could be added to store the normalized name (lowercase, no diacritics, single space) on which to match later. That may be possible by normalizing the search terms before trying to query them.
 
 So we would have the below JSON representation in the `users` collection:
@@ -264,7 +266,7 @@ Well, if we see the total number of index key examined, we will be stunned. Mong
 As the `$regex` is non-prefix expression, MongoDB cannot optimize the `IXSCAN` stage setting bounds when scanning the index, so we need a strategy for MongoDB to be able to set these bounds to do the index scan and return results faster.
 
 ## Querying efficient non-prefix pattern
-
+---
 As stated before, it's assumed that at least three alphanumeric character term is typed into text search box in order to perform meaningful searches, so let's define the strategy that will change our lives. 🤨
 
 ### The Algorithm 🚀
@@ -515,8 +517,8 @@ Well, if we see the total number of index key examined, we will be amazed. Mongo
 
 `executionStats.nReturned: 40.0`
 
-## Conclusion
-
+## Conclusions
+---
 In summary, it is important to keep in mind the following key points:
 
 - Avoid using inefficient regular expression patterns like non-prefix patterns `/batz/` or insensitive patterns `/batz/i`.
@@ -528,3 +530,4 @@ In summary, it is important to keep in mind the following key points:
 - Splitting words into chunks of a defined minimum length allow us to perform much more efficient first stage.
 
 - An *inefficient* second stage on a much smaller data set is much more *efficient* than an *inefficient* first stage on a very large data set.
+
